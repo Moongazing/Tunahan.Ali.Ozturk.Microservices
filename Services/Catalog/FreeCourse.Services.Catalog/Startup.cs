@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -40,7 +41,10 @@ namespace FreeCourse.Services.Catalog
       services.AddScoped<ICourseService,CourseService>();
 
       services.AddAutoMapper(typeof(Startup));
-      services.AddControllers();
+      services.AddControllers(opt =>
+      {
+        opt.Filters.Add(new AuthorizeFilter());
+      });
 
      
       services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
